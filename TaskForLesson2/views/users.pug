@@ -1,0 +1,15 @@
+html
+    head
+        title= title
+    body
+        h1= title
+        div
+            for user in users
+                div
+                    p
+                        | User:
+                        b.
+                            #{user.email}
+                    a(href=`/user/${user.email}`).
+                        View
+                    hr

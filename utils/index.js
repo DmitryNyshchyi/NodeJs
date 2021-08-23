@@ -4,6 +4,8 @@ const util = require('util');
 module.exports = {
     renameFSPromise: util.promisify(fs.rename),
     readFileFSPromise: util.promisify(fs.readFile),
+    writeFileFSPromise: util.promisify(fs.writeFile),
+    appendFileFSPromise: util.promisify(fs.appendFile),
     readdirFSPromise: util.promisify(fs.readdir),
     statFSPromise: util.promisify(fs.stat),
 }
