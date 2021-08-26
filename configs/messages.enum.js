@@ -6,4 +6,4 @@ module.exports = {
     USER_EXIST_ERROR: 'User already exists. Please, try login',
     SOMETHING_WENT_WRONG_ERROR: 'Ops, something went wrong',
     CREATED_SUCCESS: 'Created',
-}
+};
