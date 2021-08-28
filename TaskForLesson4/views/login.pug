@@ -1,0 +1,15 @@
+html
+    head
+        title= title
+    body
+        h1= title
+        form(action='/auth', method='POST')
+            p
+                | Email:
+                input(type='email', name='email', value='')
+            p
+                | Password:
+                input(type='password', name='password', value='')
+            input(type='submit', value='Submit')
+        a(href='/signup-page').
+            Sing up
