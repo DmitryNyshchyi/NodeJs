@@ -14,8 +14,8 @@ module.exports = {
             req.locals = { ...req.locals, user: normalizedUser };
 
             next();
-        } catch (err) {
-            next(err);
+        } catch (e) {
+            next(e);
         }
     },
 };

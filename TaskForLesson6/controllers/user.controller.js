@@ -5,8 +5,8 @@ module.exports = {
         try {
             const { locals: { user } } = req;
             res.render('user', { title: 'User', email: user.email });
-        } catch (err) {
-            next(err);
+        } catch (e) {
+            next(e);
         }
     },
 
@@ -15,8 +15,8 @@ module.exports = {
             const users = await User.find({});
 
             res.render('users', { title: 'Users', users });
-        } catch (err) {
-            next(err);
+        } catch (e) {
+            next(e);
         }
     }
 };

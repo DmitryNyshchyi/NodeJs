@@ -1,12 +1,20 @@
 {
   "name": "nodejs",
   "version": "1.0.0",
+  "scripts": {
+    "dev:nodemon": "nodemon TaskForLesson6/app.js",
+    "dev:pm2-lesson6": "pm2 kill && pm2 start TaskForLesson6/app.js --watch --name main-app",
+    "dev:pm2-kill": "pm2 kill",
+    "start": "echo START"
+  },
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "pug": "^3.0.2",
+    "joi": "^17.4.2",
     "mongoose": "^6.0.1",
-    "joi": "^17.4.2"
+    "pm2": "^5.1.1",
+    "pug": "^3.0.2"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
@@ -15,7 +23,8 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
     "husky": "4.3.0",
-    "lint-staged": "^11.1.2"
+    "lint-staged": "^11.1.2",
+    "nodemon": "^2.0.12"
   },
   "lint-staged": {
     "*.js": [

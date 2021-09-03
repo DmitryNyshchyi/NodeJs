@@ -2,11 +2,13 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 
+require('dotenv').config();
+
 const { authRouter, userRouter } = require('./router');
 const { config } = require('../configs');
 
 mongoose
-    .connect('mongodb://localhost:27017/inoxoft_db')
+    .connect(config.DB_CONNECT_URL)
     .then(() => console.log('Successfully connected to mongodb'));
 
 const app = express();

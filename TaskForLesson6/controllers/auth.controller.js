@@ -9,8 +9,8 @@ module.exports = {
             const { locals: { user } } = req;
 
             res.render('greeting', { title: `Hi, ${user.email}` });
-        } catch (err) {
-            next(err);
+        } catch (e) {
+            next(e);
         }
     },
 
@@ -22,8 +22,8 @@ module.exports = {
             const normalizedUser = userNormalizator(user);
 
             res.status(statusCodes.CREATED).json(normalizedUser);
-        } catch (err) {
-            next(err);
+        } catch (e) {
+            next(e);
         }
     }
 };
