@@ -3,11 +3,10 @@ module.exports = {
         'password',
         '__v'
     ]) => {
-        filedToRemove.forEach((filed) => {
-            // eslint-disable-next-line no-param-reassign
-            delete userToNormalize[filed];
-        });
+        const user = userToNormalize.toObject();
 
-        return userToNormalize;
+        filedToRemove.forEach((filed) => delete user[filed]);
+
+        return user;
     }
 };

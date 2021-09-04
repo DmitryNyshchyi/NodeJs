@@ -1,14 +1,18 @@
-const { User } = require('../dataBase');
+const { User, OAuth } = require('../dataBase');
 const { userNormalizator } = require('../../utils');
-const { passwordService } = require('../services');
-const { statusCodes } = require('../../configs');
+const { passwordService, jwtService } = require('../services');
+const { statusCodes, constants, messages } = require('../../configs');
 
 module.exports = {
-    postAuth: (req, res, next) => {
+    postAuth: async (req, res, next) => {
         try {
             const { locals: { user } } = req;
 
-            res.render('greeting', { title: `Hi, ${user.email}` });
+            const tokenPair = jwtService.generateTokenPair();
+
+            await OAuth.create({ ...tokenPair, user: user._id });
+
+            res.json({ ...tokenPair, user });
         } catch (e) {
             next(e);
         }
@@ -19,11 +23,38 @@ module.exports = {
             const { password } = req.body;
             const hashPassword = await passwordService.hash(password);
             const user = await User.create({ ...req.body, password: hashPassword });
-            const normalizedUser = userNormalizator(user);
+            const normalizedUser = userNormalizator(user)();
 
             res.status(statusCodes.CREATED).json(normalizedUser);
         } catch (e) {
             next(e);
         }
-    }
+    },
+
+    postSignOut: async (req, res, next) => {
+        try {
+            const token = req.get(constants.AUTHORIZATION);
+
+            await OAuth.deleteOne({ access_token: token });
+
+            res.status(statusCodes.NO_CONTENT).json(messages.OK_SUCCESS);
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    refreshToken: async (req, res, next) => {
+        try {
+            const token = req.get(constants.AUTHORIZATION);
+            const { locals: { currentUser } } = req;
+
+            const tokenPair = jwtService.generateTokenPair();
+
+            await OAuth.updateOne({ refresh_token: token }, { ...tokenPair });
+
+            res.json({ ...tokenPair, user: currentUser });
+        } catch (e) {
+            next(e);
+        }
+    },
 };

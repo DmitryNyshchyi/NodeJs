@@ -2,9 +2,12 @@ const router = require('express').Router();
 
 const { authController } = require('../controllers');
 const {
-    auth: { isCorrectPassword },
+    auth: {
+        isCorrectPassword,
+        checkToken
+    },
     user: {
-        isUserByIdExist,
+        isExistUser,
         isEmailExist,
         isValidUserData,
         isValidLoginUserData,
@@ -15,8 +18,8 @@ const {
 router.post(
     '/',
     isValidLoginUserData,
-    getUserByDynamicParam({ paramName: 'user_id', dbField: '_id', selectArgs: '+password -__v' }),
-    isUserByIdExist,
+    getUserByDynamicParam({ paramName: 'email', selectArgs: '+password -__v' }),
+    isExistUser,
     isCorrectPassword,
     authController.postAuth
 );
@@ -28,5 +31,9 @@ router.post(
     isEmailExist,
     authController.postSignup
 );
+
+router.post('/sign-out', checkToken(), authController.postSignOut);
+
+router.post('/refresh', checkToken('refresh'), authController.refreshToken);
 
 module.exports = router;

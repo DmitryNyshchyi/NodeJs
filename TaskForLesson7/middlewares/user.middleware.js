@@ -18,7 +18,7 @@ module.exports = {
         }
     },
 
-    isUserByIdExist: (req, res, next) => {
+    isExistUser: (req, res, next) => {
         try {
             const { user } = req.locals;
 

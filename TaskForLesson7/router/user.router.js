@@ -1,7 +1,9 @@
 const router = require('express').Router();
 
 const { userController } = require('../controllers');
-const { isUserByIdExist, getUserByDynamicParam } = require('../middlewares/user.middleware');
+const {
+    user: { isExistUser, getUserByDynamicParam },
+} = require('../middlewares');
 
 router.get(
     '/user/:user_id',
@@ -11,7 +13,7 @@ router.get(
         dbField: '_id',
         selectArgs: '+password -__v'
     }),
-    isUserByIdExist,
+    isExistUser,
     userController.getUserById
 );
 
