@@ -10,4 +10,5 @@ module.exports = {
     SOMETHING_WENT_WRONG_ERROR: 'Ops, something went wrong',
     USER_NOT_FOUND_ERROR: 'User not found',
     USER_EXIST_ERROR: 'User already exists. Please, try login',
+    WRONG_TEMPLATE_NAME_ERROR: 'Wrong template name',
 };

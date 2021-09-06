@@ -1,7 +1,9 @@
 const { User, OAuth } = require('../dataBase');
 const { userNormalizator } = require('../../utils');
-const { passwordService, jwtService } = require('../services');
-const { statusCodes, constants, messages } = require('../../configs');
+const { passwordService, jwtService, emailService } = require('../services');
+const {
+    statusCodes, constants, messages, emailActions
+} = require('../../configs');
 
 module.exports = {
     postAuth: async (req, res, next) => {
@@ -13,6 +15,8 @@ module.exports = {
             await OAuth.create({ ...tokenPair, user: user._id });
 
             res.json({ ...tokenPair, user });
+
+            await emailService.sendMail('nyshchyi.dmitry@gmail.com', emailActions.WELCOME, { userName: 'Dmytro' });
         } catch (e) {
             next(e);
         }
@@ -38,6 +42,8 @@ module.exports = {
             await OAuth.deleteOne({ access_token: token });
 
             res.status(statusCodes.NO_CONTENT).json(messages.OK_SUCCESS);
+
+            await emailService.sendMail('nyshchyi.dmitry@gmail.com', emailActions.GOODBYE, { userName: 'Dmytro' });
         } catch (e) {
             next(e);
         }

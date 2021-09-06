@@ -4,6 +4,7 @@ module.exports = {
     getUserById: (req, res, next) => {
         try {
             const { locals: { user } } = req;
+
             res.render('user', { title: 'User', email: user.email });
         } catch (e) {
             next(e);
