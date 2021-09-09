@@ -2,10 +2,9 @@
   "name": "nodejs",
   "version": "1.0.0",
   "scripts": {
-    "dev:nodemon-lesson6": "nodemon TaskForLesson6/app.js",
-    "dev:nodemon-lesson7": "nodemon TaskForLesson7/app.js",
     "dev:nodemon-lesson8": "nodemon TaskForLesson8/app.js",
-    "dev:pm2-lesson6": "pm2 kill && pm2 start TaskForLesson6/app.js --watch --name main-app",
+    "dev:nodemon-lesson9": "nodemon TaskForLesson9/app.js",
+    "dev:pm2-lesson9": "pm2 kill && pm2 start TaskForLesson9/app.js --watch --name main-app",
     "dev:pm2-kill": "pm2 kill",
     "start": "echo START"
   },

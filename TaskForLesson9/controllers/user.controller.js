@@ -1,11 +1,12 @@
 const { User } = require('../dataBase');
+const userUtil = require('../../utils');
 
 module.exports = {
-    getUserById: (req, res, next) => {
+    getUserById: async (req, res, next) => {
         try {
-            const { locals: { user } } = req;
+            const normalizedUser = await userUtil.userNormalizator(req.locals.user)();
 
-            res.render('user', { title: 'User', email: user.email });
+            res.json(normalizedUser);
         } catch (e) {
             next(e);
         }

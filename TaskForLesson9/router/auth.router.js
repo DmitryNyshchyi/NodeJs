@@ -14,6 +14,8 @@ const {
         getUserByDynamicParam
     }
 } = require('../middlewares');
+const { checkActionToken, validatePassword } = require('../middlewares/auth.middleware');
+const { actionTypes } = require('../../configs');
 
 router.post(
     '/',
@@ -35,5 +37,19 @@ router.post(
 router.post('/sign-out', checkToken(), authController.postSignOut);
 
 router.post('/refresh', checkToken('refresh'), authController.refreshToken);
+
+router.post(
+    '/password/forgot',
+    getUserByDynamicParam({ paramName: 'email' }),
+    isExistUser,
+    authController.sendEmailForgotPassword
+);
+
+router.post(
+    '/password/forgot/set',
+    validatePassword,
+    checkActionToken(actionTypes.FORGOT_PASSWORD),
+    authController.setUserNewPassword
+);
 
 module.exports = router;

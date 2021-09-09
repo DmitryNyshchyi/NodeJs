@@ -1,8 +1,7 @@
-const { User, OAuth } = require('../dataBase');
-const { userNormalizator } = require('../../utils');
+const { User, OAuth, ActionToken } = require('../dataBase');
 const { passwordService, jwtService, emailService } = require('../services');
 const {
-    statusCodes, constants, messages, emailActions
+    statusCodes, constants, messages, emailActions, actionTypes, config
 } = require('../../configs');
 
 module.exports = {
@@ -24,12 +23,9 @@ module.exports = {
 
     postSignup: async (req, res, next) => {
         try {
-            const { password } = req.body;
-            const hashPassword = await passwordService.hash(password);
-            const user = await User.create({ ...req.body, password: hashPassword });
-            const normalizedUser = userNormalizator(user)();
+            const user = await User.createWithHashPassword(req.body, true);
 
-            res.status(statusCodes.CREATED).json(normalizedUser);
+            res.status(statusCodes.CREATED).json(user);
         } catch (e) {
             next(e);
         }
@@ -59,6 +55,45 @@ module.exports = {
             await OAuth.updateOne({ refresh_token: token }, { ...tokenPair });
 
             res.json({ ...tokenPair, user: currentUser });
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    sendEmailForgotPassword: async (req, res, next) => {
+        try {
+            const { locals: { user } } = req;
+
+            const actionToken = jwtService.generateActionToken(actionTypes.FORGOT_PASSWORD);
+
+            await ActionToken.create({ token: actionToken, user: user._id });
+            await emailService.sendMail(
+                user.email,
+                emailActions.FORGOT_PASSWORD,
+                {
+                    userName: user.name || user.fullName,
+                    resetPasswordLink: `${config.FRONTEND_URL}/forgot?token=${actionToken}`
+                }
+            );
+
+            res.json('Email was sent.');
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    setUserNewPassword: async (req, res, next) => {
+        try {
+            const { locals: { currentUser }, body } = req;
+            const token = req.get(constants.AUTHORIZATION);
+
+            const hashedPassword = await passwordService.hash(body.password);
+
+            await User.findByIdAndUpdate(currentUser._id, { password: hashedPassword });
+            await ActionToken.deleteOne({ token });
+            await OAuth.deleteMany({ user: currentUser._id });
+
+            res.json(messages.OK_SUCCESS);
         } catch (e) {
             next(e);
         }

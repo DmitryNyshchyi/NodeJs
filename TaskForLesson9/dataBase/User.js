@@ -1,6 +1,8 @@
 const { Schema, model } = require('mongoose');
 
 const { dataBaseTables, userRoles } = require('../../configs');
+const { passwordService } = require('../../TaskForLesson5/services');
+const { userNormalizator } = require('../../utils');
 
 const userSchema = new Schema({
     name: {
@@ -25,6 +27,31 @@ const userSchema = new Schema({
         default: userRoles.USER,
         enum: Object.values(userRoles)
     }
-}, { timestamps: true });
+}, { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } });
+
+userSchema
+    .virtual('fullName')
+    .get(function() {
+        return this.name ? `${this.name} ${this.email}` : this.email;
+    });
+
+userSchema.methods = { // this - record
+    validatePassword(password) { // TODO FMI validatePassword
+        return passwordService.compare(password, this.password);
+    }
+};
+
+userSchema.statics = { // this - schema
+    async createWithHashPassword(userObject, isNormalizedUser = false) {
+        const hashPassword = await passwordService.hash(userObject.password);
+        const newUser = await this.create({ ...userObject, password: hashPassword });
+
+        if (isNormalizedUser) {
+            return userNormalizator(newUser)();
+        }
+
+        return newUser;
+    }
+};
 
 module.exports = model(dataBaseTables.USER, userSchema);

@@ -6,4 +6,5 @@ module.exports = {
     emailActions: require('./emailActions.enum'),
     statusCodes: require('./statusCodes.enum'),
     userRoles: require('./userRoles.enum'),
+    actionTypes: require('./actionTypes.enum'),
 };

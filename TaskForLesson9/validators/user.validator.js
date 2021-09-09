@@ -9,7 +9,6 @@ module.exports = {
         email: Joi.string().regex(constants.EMAIL_REGEXP).trim().required(),
         password: Joi.string().trim().min(6).max(30)
             .regex(constants.PASSWORD_REGEXP)
-            .trim()
             .required(),
         repeatPassword: Joi.any().equal(Joi.ref('password')).required(),
         role: Joi.string().allow(...Object.values(userRoles)),
@@ -19,7 +18,12 @@ module.exports = {
         email: Joi.string().regex(constants.EMAIL_REGEXP).trim().required(),
         password: Joi.string().trim().min(6).max(30)
             .regex(constants.PASSWORD_REGEXP)
-            .trim()
+            .required(),
+    }),
+
+    passwordValidator: Joi.object({
+        password: Joi.string().trim().min(6).max(30)
+            .regex(constants.PASSWORD_REGEXP)
             .required(),
     }),
 };
