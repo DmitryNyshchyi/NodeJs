@@ -12,4 +12,5 @@ module.exports = {
     USER_EXIST_ERROR: 'User already exists. Please, try login',
     WRONG_TEMPLATE_NAME_ERROR: 'Wrong template name',
     WRONG_TOKEN_TYPE_ERROR: 'Wrong token type',
+    CREAT_SUPER_ADMIN_ERROR: 'Super admin did not created.',
 };

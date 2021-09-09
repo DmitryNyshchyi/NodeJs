@@ -66,7 +66,7 @@ module.exports = {
 
     checkUserRole: (roleArr = []) => (req, res, next) => {
         try {
-            const { role } = req.user;
+            const { role } = req.locals.user;
 
             if (!roleArr.length) {
                 return next();

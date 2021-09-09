@@ -43,8 +43,8 @@ userSchema.methods = { // this - record
 
 userSchema.statics = { // this - schema
     async createWithHashPassword(userObject, isNormalizedUser = false) {
-        const hashPassword = await passwordService.hash(userObject.password);
-        const newUser = await this.create({ ...userObject, password: hashPassword });
+        const hashedPassword = await passwordService.hash(userObject.password);
+        const newUser = await this.create({ ...userObject, password: hashedPassword });
 
         if (isNormalizedUser) {
             return userNormalizator(newUser)();

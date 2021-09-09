@@ -41,7 +41,7 @@ module.exports = {
                 throw new ErrorHandler(statusCodes.UNAUTHORIZED, messages.INVALID_TOKEN_ERROR);
             }
 
-            req.locals = { ...req.locals, currentUser: tokenDB.user };
+            req.locals = { ...req.locals, user: tokenDB.user };
 
             next();
         } catch (e) {
@@ -49,7 +49,7 @@ module.exports = {
         }
     },
 
-    checkActionToken: (tokenType = 'access') => async (req, res, next) => {
+    checkActionToken: (tokenType) => async (req, res, next) => {
         try {
             const token = req.get(constants.AUTHORIZATION);
 
@@ -65,7 +65,7 @@ module.exports = {
                 throw new ErrorHandler(statusCodes.UNAUTHORIZED, messages.INVALID_TOKEN_ERROR);
             }
 
-            req.locals = { ...req.locals, currentUser: tokenDB.user };
+            req.locals = { ...req.locals, user: tokenDB.user, token };
 
             next();
         } catch (e) {

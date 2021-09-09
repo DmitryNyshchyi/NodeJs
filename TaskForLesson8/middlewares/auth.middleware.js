@@ -40,7 +40,7 @@ module.exports = {
                 throw new ErrorHandler(statusCodes.UNAUTHORIZED, messages.INVALID_TOKEN_ERROR);
             }
 
-            req.locals = { ...req.locals, currentUser: tokenDB.user };
+            req.locals = { ...req.locals, user: tokenDB.user };
 
             next();
         } catch (e) {

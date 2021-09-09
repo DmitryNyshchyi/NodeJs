@@ -28,6 +28,9 @@ module.exports = {
             case actionTypes.FORGOT_PASSWORD:
                 secretWord = config.FORGOT_PASSWORD_TOKEN_SECRET;
                 break;
+            case actionTypes.CREATE_NEW_ADMIN:
+                secretWord = config.CREATE_NEW_ADMIN_TOKEN_SECRET;
+                break;
             default:
                 throw new ErrorHandler(statusCodes.SERVER_ERROR, messages.WRONG_TOKEN_TYPE_ERROR);
         }
@@ -42,6 +45,9 @@ module.exports = {
             switch (tokenType) {
                 case actionTypes.FORGOT_PASSWORD:
                     secretWord = config.FORGOT_PASSWORD_TOKEN_SECRET;
+                    break;
+                case actionTypes.CREATE_NEW_ADMIN:
+                    secretWord = config.CREATE_NEW_ADMIN_TOKEN_SECRET;
                     break;
                 default:
                     throw new ErrorHandler(statusCodes.SERVER_ERROR, messages.WRONG_TOKEN_TYPE_ERROR);

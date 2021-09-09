@@ -3,8 +3,11 @@ module.exports = {
     FRONTEND_URL: process.env.FRONTEND_URL || 'https://google.com',
     DB_CONNECT_URL: process.env.DB_CONNECT_URL || 'mongodb://localhost:27017/inoxoft_db',
     FORGOT_PASSWORD_TOKEN_SECRET: process.env.FORGOT_PASSWORD_TOKEN_SECRET || 'word',
+    CREATE_NEW_ADMIN_TOKEN_SECRET: process.env.CREATE_NEW_ADMIN_TOKEN_SECRET || 'word',
     ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET || 'word',
     REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET || 'refresh_word',
     EMAIL_BROADCAST: process.env.EMAIL_BROADCAST || 'test@gmail.com',
-    EMAIL_BROADCAST_PASSWORD: process.env.EMAIL_BROADCAST_PASSWORD || '123456'
+    EMAIL_BROADCAST_PASSWORD: process.env.EMAIL_BROADCAST_PASSWORD || '123456',
+    SUPER_ADMIN_EMAIL: process.env.SUPER_ADMIN_EMAIL || 'test@gmail.com',
+    SUPER_ADMIN_PASSWORD: process.env.SUPER_ADMIN_PASSWORD || '123456',
 };

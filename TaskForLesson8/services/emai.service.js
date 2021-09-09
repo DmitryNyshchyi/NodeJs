@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 const EmailTemplates = require('email-templates');
 const path = require('path');
 
-const ErrorHandler = require('../../TaskForLesson4/errors/ErrorHandler');
+const ErrorHandler = require('../errors/ErrorHandler');
 const { config, statusCodes, messages } = require('../../configs');
 const templatesInfo = require('../email-templates');
 

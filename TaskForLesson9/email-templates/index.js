@@ -15,4 +15,9 @@ module.exports = {
         templateName: emailActions.FORGOT_PASSWORD,
         subject: 'Forgot password'
     },
+
+    [emailActions.CREATE_NEW_ADMIN]: {
+        templateName: emailActions.CREATE_NEW_ADMIN,
+        subject: 'Create new admin'
+    },
 };

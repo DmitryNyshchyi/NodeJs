@@ -48,13 +48,13 @@ module.exports = {
     refreshToken: async (req, res, next) => {
         try {
             const token = req.get(constants.AUTHORIZATION);
-            const { locals: { currentUser } } = req;
+            const { locals: { user } } = req;
 
             const tokenPair = jwtService.generateTokenPair();
 
             await OAuth.updateOne({ refresh_token: token }, { ...tokenPair });
 
-            res.json({ ...tokenPair, user: currentUser });
+            res.json({ ...tokenPair, user });
         } catch (e) {
             next(e);
         }
@@ -84,14 +84,14 @@ module.exports = {
 
     setUserNewPassword: async (req, res, next) => {
         try {
-            const { locals: { currentUser }, body } = req;
+            const { locals: { user }, body } = req;
             const token = req.get(constants.AUTHORIZATION);
 
             const hashedPassword = await passwordService.hash(body.password);
 
-            await User.findByIdAndUpdate(currentUser._id, { password: hashedPassword });
+            await User.findByIdAndUpdate(user._id, { password: hashedPassword });
             await ActionToken.deleteOne({ token });
-            await OAuth.deleteMany({ user: currentUser._id });
+            await OAuth.deleteMany({ user: user._id });
 
             res.json(messages.OK_SUCCESS);
         } catch (e) {

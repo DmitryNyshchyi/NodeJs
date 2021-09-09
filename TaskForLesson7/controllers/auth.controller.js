@@ -46,13 +46,13 @@ module.exports = {
     refreshToken: async (req, res, next) => {
         try {
             const token = req.get(constants.AUTHORIZATION);
-            const { locals: { currentUser } } = req;
+            const { locals: { user } } = req;
 
             const tokenPair = jwtService.generateTokenPair();
 
             await OAuth.updateOne({ refresh_token: token }, { ...tokenPair });
 
-            res.json({ ...tokenPair, user: currentUser });
+            res.json({ ...tokenPair, user });
         } catch (e) {
             next(e);
         }
