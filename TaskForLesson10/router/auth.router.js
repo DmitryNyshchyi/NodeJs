@@ -6,6 +6,9 @@ const {
         isCorrectPassword,
         checkToken
     },
+    file: {
+        checkUserAvatar
+    },
     user: {
         isExistUser,
         isEmailExist,
@@ -29,6 +32,7 @@ router.post(
 router.post(
     '/signup',
     isValidUserData,
+    checkUserAvatar,
     getUserByDynamicParam({ paramName: 'email' }),
     isEmailExist,
     authController.postSignup

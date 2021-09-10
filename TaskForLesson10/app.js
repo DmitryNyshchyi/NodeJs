@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+const expressFileUpload = require('express-fileupload');
 
 require('dotenv').config();
 
@@ -17,6 +18,7 @@ const viewsPath = path.join(__dirname, 'views');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(viewsPath));
+app.use(expressFileUpload());
 
 app.set('view engine', 'pug');
 app.set('views', viewsPath);

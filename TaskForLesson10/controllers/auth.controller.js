@@ -1,5 +1,7 @@
 const { User, OAuth, ActionToken } = require('../dataBase');
-const { passwordService, jwtService, emailService } = require('../services');
+const {
+    passwordService, jwtService, emailService, s3Service
+} = require('../services');
 const {
     statusCodes, constants, messages, emailActions, actionTypes, config
 } = require('../../configs');
@@ -23,7 +25,16 @@ module.exports = {
 
     postSignup: async (req, res, next) => {
         try {
-            const user = await User.createWithHashPassword(req.body, true);
+            const { files: { avatar }, body } = req;
+
+            let user = await User.createWithHashPassword(body, true);
+
+            if (avatar) {
+                const { _id } = user;
+                const uploadFile = await s3Service.uploadImage(avatar, 'user', _id);
+
+                user = await User.findByIdAndUpdate(_id, { avatar: uploadFile.Location }, { new: true });
+            }
 
             res.status(statusCodes.CREATED).json(user);
         } catch (e) {

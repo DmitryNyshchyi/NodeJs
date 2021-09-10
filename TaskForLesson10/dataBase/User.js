@@ -22,6 +22,9 @@ const userSchema = new Schema({
         trim: true,
         select: false
     },
+    avatar: {
+        type: String
+    },
     role: {
         type: String,
         default: userRoles.USER,

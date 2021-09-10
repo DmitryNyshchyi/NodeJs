@@ -10,4 +10,8 @@ module.exports = {
     EMAIL_BROADCAST_PASSWORD: process.env.EMAIL_BROADCAST_PASSWORD || '123456',
     SUPER_ADMIN_EMAIL: process.env.SUPER_ADMIN_EMAIL || 'test@gmail.com',
     SUPER_ADMIN_PASSWORD: process.env.SUPER_ADMIN_PASSWORD || '123456',
+    AWS_S3_BUCKET_NAME: process.env.AWS_S3_BUCKET_NAME,
+    AWS_S3_ACCESS_KEY: process.env.AWS_S3_ACCESS_KEY,
+    AWS_S3_SECRET_KEY: process.env.AWS_S3_SECRET_KEY,
+    AWS_S3_REGION: process.env.AWS_S3_REGION,
 };
