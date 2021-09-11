@@ -13,4 +13,5 @@ module.exports = {
     WRONG_TEMPLATE_NAME_ERROR: 'Wrong template name',
     WRONG_TOKEN_TYPE_ERROR: 'Wrong token type',
     CREAT_SUPER_ADMIN_ERROR: 'Super admin did not created.',
+    CORS_NOT_ALLOWED_ERROR: 'Cors not allowed',
 };

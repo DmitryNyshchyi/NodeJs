@@ -4,10 +4,8 @@ const { statusCodes, constants } = require('../../configs');
 module.exports = {
     checkUserAvatar: (req, res, next) => {
         try {
-            const { avatar } = req.files;
-
-            if (avatar) {
-                const { name, size, mimetype } = avatar;
+            if (req.files && req.files.avatar) {
+                const { name, size, mimetype } = req.files.avatar;
 
                 if (!constants.IMAGES_MIMETYPES.includes(mimetype)) {
                     throw new ErrorHandler(statusCodes.BAD_REQUEST, `Wrong file format ${name}`);

@@ -25,13 +25,11 @@ module.exports = {
 
     postSignup: async (req, res, next) => {
         try {
-            const { files: { avatar }, body } = req;
+            let user = await User.createWithHashPassword(req.body, true);
 
-            let user = await User.createWithHashPassword(body, true);
-
-            if (avatar) {
+            if (req.files && req.files.avatar) {
                 const { _id } = user;
-                const uploadFile = await s3Service.uploadImage(avatar, 'user', _id);
+                const uploadFile = await s3Service.uploadImage(req.files.avatar, 'user', _id);
 
                 user = await User.findByIdAndUpdate(_id, { avatar: uploadFile.Location }, { new: true });
             }
