@@ -36,7 +36,7 @@ if (process.env.ENVIRONMENT === 'dev') {
     // eslint-disable-next-line import/no-extraneous-dependencies
     const morgan = require('morgan');
 
-    app.use(morgan('dev'));
+    app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
 }
 
 app.set('view engine', 'pug');
