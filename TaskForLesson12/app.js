@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const expressFileUpload = require('express-fileupload');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
+const swaggerUI = require('swagger-ui-express');
 
 require('dotenv').config();
 
@@ -19,6 +20,7 @@ mongoose
 
 const app = express();
 const viewsPath = path.join(__dirname, 'views');
+const swaggerJson = require('./docs/swagger.json');
 
 app.use(cors({ origin: _configureCors }));
 
@@ -43,6 +45,11 @@ if (process.env.ENVIRONMENT === 'dev') {
 app.set('view engine', 'pug');
 app.set('views', viewsPath);
 
+app.use(
+    '/docs',
+    swaggerUI.serve,
+    swaggerUI.setup(swaggerJson, { explorer: true })
+);
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
 app.use(_mainErrorHandler);

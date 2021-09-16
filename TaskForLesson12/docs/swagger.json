@@ -1,0 +1,255 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Node.js Documentation",
+    "version": "0.0.1",
+    "description": "Inoxoft Course Node.js"
+  },
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Auth process"
+    },
+    {
+      "name": "Users",
+      "description": "Operations about users"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Get all users",
+        "operationId": "getAllUsers",
+        "parameters": [
+          {
+            "name": "perPage",
+            "in": "query",
+            "description": "How many items per one page",
+            "required": false,
+            "default": 10,
+            "type": "number"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "default": 1,
+            "type": "number"
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "Sort data",
+            "required": false,
+            "default": "createdAt",
+            "type": "string"
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "Order data",
+            "required": false,
+            "default": "asc",
+            "type": "string",
+            "enum": ["asc", "desc", null]
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name",
+            "required": false,
+            "default": "Test Name",
+            "type": "string"
+          },
+          {
+            "name": "age.gte",
+            "in": "query",
+            "description": "Lowest age will be",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "age.lte",
+            "in": "query",
+            "description": "Highest age will be",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/GetUsersSchema"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/ErrorSchema"
+            }
+          }
+        }
+      }
+    },
+    "/auth": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Login",
+        "operationId": "login",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "body",
+            "description": "Email",
+            "required": true,
+            "default": "test@gmail.com",
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "body",
+            "description": "Password",
+            "required": true,
+            "default": "Test1234!",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/AuthSchema"
+            }
+          },
+          "400": {
+            "description": "Invalid data",
+            "schema": {
+              "$ref": "#/definitions/ErrorSchema"
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorSchema"
+            }
+          }
+        }
+      }
+    }
+},
+  "definitions": {
+    "AuthSchema": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/UserSchema"
+        },
+        "access_token": {
+          "description": "Access token",
+          "type": "string",
+          "example": "12434frefvirnivnrvnrosxmlmxodsifjrnfgunr"
+        },
+        "refresh_token": {
+          "description": "Access token",
+          "type": "string",
+          "example": "gorkfkvecverbgvijbrejfvnjnfrcmk,lsods"
+        }
+      }
+    },
+    "GetUsersSchema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/UsersSchema"
+        },
+        "page": {
+          "description": "Page",
+          "type": "integer",
+          "example": 1
+        },
+        "limit": {
+          "description": "Items per page",
+          "type": "integer",
+          "example": 10
+        },
+        "count": {
+          "description": "Amount of data",
+          "type": "integer",
+          "example": 30
+        },
+        "pageCount": {
+          "description": "Page count",
+          "type": "integer",
+          "example": 1
+        }
+      }
+    },
+    "UsersSchema": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/UserSchema"
+      }
+    },
+    "UserSchema": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "description": "Id",
+          "type": "string",
+          "example": "example_id"
+        },
+        "name": {
+          "description": "Name",
+          "type": "string",
+          "example": "Dmytro"
+        },
+        "fullName": {
+          "description": "Full name",
+          "type": "string",
+          "example": "Nyshchyi"
+        },
+        "age": {
+          "description": "Age",
+          "type": "number",
+          "example": "30"
+        },
+        "email": {
+          "description": "Email",
+          "type": "string",
+          "example": "test@gmail.com"
+        },
+        "role": {
+          "description": "Role",
+          "type": "string",
+          "example": "user"
+        },
+        "createdAt": {
+          "description": "Date when user created account",
+          "type": "string",
+          "example": "2021-01-01T00:00:00.000Z"
+        },
+        "updatedAt": {
+          "description": "Date when user updated account data",
+          "type": "string",
+          "example": "2021-02-01T00:00:00.000Z"
+        }
+      }
+    },
+    "ErrorSchema": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Data is not valid"
+        }
+      }
+    }
+  }
+}
