@@ -4,7 +4,8 @@
   "scripts": {
     "dev:nodemon-lesson10": "nodemon TaskForLesson10/app.js",
     "dev:nodemon-lesson11": "nodemon TaskForLesson11/app.js",
-    "dev:pm2-lesson11": "pm2 kill && pm2 start TaskForLesson11/app.js --watch --name main-app",
+    "dev:nodemon-lesson12": "nodemon TaskForLesson12/app.js",
+    "dev:pm2-lesson12": "pm2 kill && pm2 start TaskForLesson12/app.js --watch --name main-app",
     "dev:pm2-kill": "pm2 kill",
     "start": "echo START"
   },
@@ -26,6 +27,7 @@
     "nodemailer": "^6.6.3",
     "pm2": "^5.1.1",
     "pug": "^3.0.2",
+    "swagger-ui-express": "^4.1.6",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
@@ -37,8 +39,8 @@
     "eslint-plugin-promise": "^5.1.0",
     "husky": "4.3.0",
     "lint-staged": "^11.1.2",
-    "nodemon": "^2.0.12",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.12"
   },
   "lint-staged": {
     "*.js": [

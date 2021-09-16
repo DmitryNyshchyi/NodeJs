@@ -3,7 +3,9 @@ const userUtil = require('../../utils');
 const {
     userRoles, config, actionTypes, emailActions, messages
 } = require('../../configs');
-const { passwordService, jwtService, emailService } = require('../services');
+const {
+    passwordService, jwtService, emailService, userService
+} = require('../services');
 
 module.exports = {
     getUserById: async (req, res, next) => {
@@ -18,9 +20,9 @@ module.exports = {
 
     getAllUsers: async (req, res, next) => {
         try {
-            const users = await User.find({});
+            const users = await userService.findAll(req.query);
 
-            res.render('users', { title: 'Users', users });
+            res.json(users);
         } catch (e) {
             next(e);
         }
