@@ -12,6 +12,7 @@ require('dotenv').config();
 const { authRouter, userRouter } = require('./router');
 const { config, constants, messages } = require('../configs');
 const cronJobs = require('./cron');
+const Sentry = require('./logger/Sentry');
 
 mongoose
     .connect(config.DB_CONNECT_URL)
@@ -45,6 +46,8 @@ if (process.env.ENVIRONMENT === 'dev') {
 app.set('view engine', 'pug');
 app.set('views', viewsPath);
 
+app.use(Sentry.Handlers.requestHandler());
+
 app.use(
     '/docs',
     swaggerUI.serve,
@@ -52,7 +55,6 @@ app.use(
 );
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
-app.use(_mainErrorHandler);
 
 app.get('/signup-page', (req, res) => {
     res.render('signup', { title: 'Sign up' });
@@ -66,6 +68,10 @@ app.get('/ping', (req, res) => {
     res.render('ping', { title: 'Ping endpoint', message: 'All Ok' });
 });
 
+app.use(Sentry.Handlers.errorHandler());
+
+app.use(_mainErrorHandler);
+
 app.listen(config.PORT, () => {
     console.log('App listen on port:', config.PORT);
     cronJobs();
@@ -76,6 +82,8 @@ function _mainErrorHandler(err, req, res, next) {
     res
         .status(err.status || 500)
         .json({ message: err.message || 'Unknown error' });
+
+    res.end(`${res.sentry}\n`);
 }
 
 function _configureCors(origin, callback) {

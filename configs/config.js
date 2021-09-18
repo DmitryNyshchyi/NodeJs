@@ -21,4 +21,6 @@ module.exports = {
     AWS_S3_REGION: process.env.AWS_S3_REGION,
 
     ALLOWED_ORIGIN: process.env.ALLOWED_ORIGIN || 'http://localhost:3000;http://localhost:5000',
+
+    SENTRY_DSN: process.env.SENTRY_DSN,
 };
